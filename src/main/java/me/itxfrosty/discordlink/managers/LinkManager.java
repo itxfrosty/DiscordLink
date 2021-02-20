@@ -17,6 +17,7 @@ public class LinkManager extends ListenerAdapter {
 
     // This is is disgusting. FIX THIS.
     private static final HashMap<Integer, Player> links = new HashMap<>();
+
     public static HashMap<UUID, Integer> checks = new HashMap<UUID, Integer>();
     public static HashMap<Player, String> done = new HashMap<Player, String>();
 
@@ -29,7 +30,6 @@ public class LinkManager extends ListenerAdapter {
     public static int link(Player player) {
         int code = code();
         links.put(code, player);
-        checks.put(player.getUniqueId(), code);
         return code;
     }
 
@@ -49,7 +49,7 @@ public class LinkManager extends ListenerAdapter {
      *
      * @param code Player's Code.
      */
-    public static void delete(int code) {
+    public static void remove(int code) {
         if (!links.containsKey(code)) return;
         links.remove(code);
     }

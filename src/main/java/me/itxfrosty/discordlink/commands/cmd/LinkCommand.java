@@ -24,15 +24,6 @@ public class LinkCommand extends CommandBase {
             Player player = (Player) sender;
 
             if (args.length == 0) {
-                if (LinkManager.done.containsKey(player)) {
-                    sender.sendMessage(ChatColor.AQUA + "You have already have synced your account!");
-                    return;
-                }
-
-                if (LinkManager.checks.containsKey(player.getUniqueId())) {
-                    sender.sendMessage(ChatColor.AQUA + "You already have a code generated. !link " + LinkManager.checks.get(player.getUniqueId()));
-                    return;
-                }
                 LinkManager.link(player);
                 int code = LinkManager.link(player);
                 player.sendMessage(ChatColor.AQUA + "Go to discord and run !link " + code);

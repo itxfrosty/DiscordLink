@@ -1,6 +1,7 @@
 package me.itxfrosty.discordlink.managers;
 
 import lombok.SneakyThrows;
+import me.itxfrosty.discordlink.commands.cmd.discord.LinkDiscordCommand;
 import me.itxfrosty.discordlink.utils.ConsoleMessage;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -28,6 +29,7 @@ public class BotManager {
     @SneakyThrows
     public void connectBot(String token) {
         jdaBuilder = JDABuilder.createDefault(token);
+        jdaBuilder.addEventListeners(new LinkDiscordCommand());
     }
 
     /**
