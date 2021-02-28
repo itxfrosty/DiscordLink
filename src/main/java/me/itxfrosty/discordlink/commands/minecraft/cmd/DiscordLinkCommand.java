@@ -1,7 +1,8 @@
-package me.itxfrosty.discordlink.commands.cmd.discord;
+package me.itxfrosty.discordlink.commands.minecraft.cmd;
 
 import lombok.SneakyThrows;
 import me.itxfrosty.discordlink.DiscordLink;
+import me.itxfrosty.discordlink.managers.DatabaseManager;
 import me.itxfrosty.discordlink.managers.LinkManager;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -9,9 +10,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class LinkDiscordCommand extends ListenerAdapter {
+public class DiscordLinkCommand extends ListenerAdapter {
 
     private DiscordLink discordLink;
+    private final DatabaseManager db = new DatabaseManager();
 
     @SneakyThrows
     @Override
@@ -25,28 +27,12 @@ public class LinkDiscordCommand extends ListenerAdapter {
             Player player = LinkManager.completeLink(code);
             Member member = e.getMember();
 
-
-            DiscordLink.playerData.set("Data."+ player.getUniqueId().toString(),member.getId());
-            DiscordLink.playerData.save(DiscordLink.data);
+            db.connect();
+            db.insert(player.getUniqueId(),member.getId());
 
             player.sendMessage("Linked!");
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         }
-
-
-
     }
 }

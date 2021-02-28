@@ -1,5 +1,6 @@
-package me.itxfrosty.discordlink;
+package me.itxfrosty.discordlink.utils;
 
+import me.itxfrosty.discordlink.DiscordLink;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

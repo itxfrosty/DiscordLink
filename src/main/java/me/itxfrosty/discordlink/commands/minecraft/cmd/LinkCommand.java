@@ -1,7 +1,9 @@
-package me.itxfrosty.discordlink.commands.cmd;
+package me.itxfrosty.discordlink.commands.minecraft.cmd;
 
-import me.itxfrosty.discordlink.Lang;
-import me.itxfrosty.discordlink.commands.CommandBase;
+import me.itxfrosty.discordlink.DiscordLink;
+import me.itxfrosty.discordlink.utils.Lang;
+import me.itxfrosty.discordlink.commands.minecraft.CommandBase;
+import me.itxfrosty.discordlink.managers.DatabaseManager;
 import me.itxfrosty.discordlink.managers.LinkManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -18,12 +20,20 @@ public class LinkCommand extends CommandBase {
         super("link",null);
     }
 
+
+
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
             if (args.length == 0) {
+
+                if (DiscordLink.getDatabaseManager().contains(player.getUniqueId())) {
+                    player.sendMessage("You are already Linked.");
+                    return;
+                }
+
                 LinkManager.link(player);
                 int code = LinkManager.link(player);
                 player.sendMessage(ChatColor.AQUA + "Go to discord and run !link " + code);

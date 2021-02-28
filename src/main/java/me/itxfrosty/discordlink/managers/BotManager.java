@@ -1,7 +1,8 @@
 package me.itxfrosty.discordlink.managers;
 
 import lombok.SneakyThrows;
-import me.itxfrosty.discordlink.commands.cmd.discord.LinkDiscordCommand;
+import me.itxfrosty.discordlink.DiscordLink;
+import me.itxfrosty.discordlink.commands.minecraft.cmd.DiscordLinkCommand;
 import me.itxfrosty.discordlink.utils.ConsoleMessage;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -21,6 +22,8 @@ public class BotManager {
     private JDA jda;
     private JDABuilder jdaBuilder;
 
+    private DiscordLink bot;
+
     /**
      * Starts the DiscordBot.
      *
@@ -29,7 +32,7 @@ public class BotManager {
     @SneakyThrows
     public void connectBot(String token) {
         jdaBuilder = JDABuilder.createDefault(token);
-        jdaBuilder.addEventListeners(new LinkDiscordCommand());
+        jdaBuilder.addEventListeners(new DiscordLinkCommand());
     }
 
     /**
@@ -100,6 +103,13 @@ public class BotManager {
     }
 
     /**
+     * Get's the status of the Discord Bot!
+     */
+    public void getBotStatus() {
+        jda.getStatus();
+    }
+
+    /**
      * Set's the token for the bot.
      *
      * @param token Discord Bot Token.
@@ -117,6 +127,12 @@ public class BotManager {
         return jda.getToken();
     }
 
+    /**
+     * Get's the bot ID.
+     *
+     * @return The Discord bot ID loooooooooong.
+     */
+    public long getBotID() { return jda.getSelfUser().getIdLong(); }
 
     /**
      * Get's a Invite for the bot to a Discord Server.

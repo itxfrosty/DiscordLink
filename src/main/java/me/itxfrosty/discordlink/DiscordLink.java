@@ -2,9 +2,8 @@ package me.itxfrosty.discordlink;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import me.itxfrosty.discordlink.commands.CommandModule;
-import me.itxfrosty.discordlink.managers.BotManager;
-import me.itxfrosty.discordlink.managers.LinkManager;
+import me.itxfrosty.discordlink.commands.minecraft.CommandModule;
+import me.itxfrosty.discordlink.managers.*;
 import me.itxfrosty.discordlink.utils.ConsoleMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -20,19 +19,17 @@ public class DiscordLink extends JavaPlugin {
     @Getter private static DiscordLink instance;
 
     private final BotManager bot = new BotManager();
-    private final LinkManager link = new LinkManager();
+    private static final DatabaseManager databaseManager = new DatabaseManager();
+
     public static FileConfiguration playerData;
     public static File data;
-
 
     @SneakyThrows
     @Override
     public void onEnable() {
         instance = this;
 
-        createConfig();
         startBot();
-        playerData.save(data);
 
         CommandModule.registerCommands();
     }
@@ -40,6 +37,7 @@ public class DiscordLink extends JavaPlugin {
     @Override
     public void onDisable() {
         bot.disconnectBot();
+        databaseManager.disconnect();
     }
 
 
@@ -70,5 +68,9 @@ public class DiscordLink extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
         }
+    }
+
+    public static DatabaseManager getDatabaseManager() {
+        return databaseManager;
     }
 }
