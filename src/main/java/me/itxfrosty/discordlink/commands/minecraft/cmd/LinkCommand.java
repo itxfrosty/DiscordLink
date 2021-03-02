@@ -1,10 +1,9 @@
 package me.itxfrosty.discordlink.commands.minecraft.cmd;
 
-import me.itxfrosty.discordlink.DiscordLink;
-import me.itxfrosty.discordlink.utils.Lang;
 import me.itxfrosty.discordlink.commands.minecraft.CommandBase;
 import me.itxfrosty.discordlink.managers.DatabaseManager;
 import me.itxfrosty.discordlink.managers.LinkManager;
+import me.itxfrosty.discordlink.utils.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,16 +19,19 @@ public class LinkCommand extends CommandBase {
         super("link",null);
     }
 
-
+    private final DatabaseManager db = new DatabaseManager();
 
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
+            // Calling connect here for some reason
+            db.connect();
 
+            System.out.println(player.getUniqueId());
             if (args.length == 0) {
 
-                if (DiscordLink.getDatabaseManager().contains(player.getUniqueId())) {
+                if (db.contains(player.getUniqueId())) {
                     player.sendMessage("You are already Linked.");
                     return;
                 }

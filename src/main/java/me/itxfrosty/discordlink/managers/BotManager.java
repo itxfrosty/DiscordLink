@@ -9,8 +9,13 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BotManager {
 
@@ -23,6 +28,8 @@ public class BotManager {
     private JDABuilder jdaBuilder;
 
     private DiscordLink bot;
+
+    private final List<ListenerAdapter> eventListeners = new ArrayList<>();
 
     /**
      * Starts the DiscordBot.
@@ -100,6 +107,33 @@ public class BotManager {
             return;
         }
         jdaBuilder.setActivity(Activity.playing(status));
+    }
+
+    /**
+     * Register a single Listener.
+     *
+     * @param listener Listener.
+     */
+    public void registerEventListener(@NotNull ListenerAdapter listener) {
+        eventListeners.add(listener);
+    }
+
+    /**
+     * Register's multiple listeners.
+     *
+     * @param listeners Listeners.
+     */
+    public void registerEventListeners(@NotNull ListenerAdapter... listeners) {
+        Arrays.asList(listeners).forEach(this::registerEventListener);
+    }
+
+    /**
+     * Register's Listeners.
+     */
+    public void addListeners() {
+        for (ListenerAdapter listener : eventListeners) {
+            jda.addEventListener(listener);
+        }
     }
 
     /**

@@ -3,6 +3,8 @@ package me.itxfrosty.discordlink.managers;
 import me.itxfrosty.discordlink.utils.ConsoleMessage;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class DatabaseManager {
@@ -13,6 +15,7 @@ public class DatabaseManager {
      */
 
     private Connection connection;
+    private List<AutoCloseable> closing = new ArrayList<>();
 
     private final String host = "na04-sql.pebblehost.com";
     private final int port = 3306;
@@ -24,13 +27,16 @@ public class DatabaseManager {
      * Connects to SQL.
      */
     public void connect() {
+        String sql = "CREATE TABLE IF NOT EXISTS linked_users (player_uuid VARCHAR(100), discord_id VARCHAR(100), player_name VARCHAR(100));";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://"
+            Class.forName("com.mysql.jdbc.Driver");
+            this.connection = DriverManager.getConnection("jdbc:mysql://"
                             + this.host + ":" + this.port + "/" + this.database,
                     this.username, this.password);
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
         } catch (SQLException | ClassNotFoundException e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -52,9 +58,10 @@ public class DatabaseManager {
      *
      * @param player Player's UUID.
      * @param discordID User's discord ID.
+     * @param username Player's IGN.
      */
-    public void insert(UUID player, String discordID) {
-        String SQL = String.format("INSERT INTO linked_users (player_uuid, discord_id) VALUES (\"%h\", \"%s\");", player, discordID);
+    public void insert(UUID player, String discordID, String username) {
+        String SQL = String.format("INSERT INTO linked_users (player_uuid, discord_id, player_name) VALUES (\"%h\", \"%s\", \"%h\");", player, discordID, username);
         try {
             Statement statement = connection.createStatement();
             statement.execute(SQL);
@@ -92,6 +99,29 @@ public class DatabaseManager {
             statement.executeUpdate(SQL);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Closes the connection and other objects that
+     * are needed to close.
+     */
+    public void close() {
+        try {
+            if (connection == null || connection.isClosed()) return;
+
+            for (AutoCloseable c : closing) {
+                try {
+                    c.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            closing.clear();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.getErrorCode();
         }
     }
 

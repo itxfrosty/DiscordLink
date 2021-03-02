@@ -16,7 +16,7 @@ public class LinkManager extends ListenerAdapter {
 
     // This is is disgusting. FIX THIS.
     private static final HashMap<Integer, Player> links = new HashMap<>();
-    //private static final dbm db = new dbm("na04-sql.pebblehost.com",3306,"customer_171117_link","customer_171117_link","3rcL2XSc!Vsr8iNrk48J");
+    private static DatabaseManager db = new DatabaseManager();
 
     public static HashMap<UUID, Integer> checks = new HashMap<UUID, Integer>();
     public static HashMap<Player, String> done = new HashMap<Player, String>();
@@ -56,8 +56,8 @@ public class LinkManager extends ListenerAdapter {
     }
 
     public static void unlink(Player player) {
-        //db.connect();
-        //db.remove(player.getUniqueId());
+        db.connect();
+        db.remove(player.getUniqueId());
     }
 
     /**

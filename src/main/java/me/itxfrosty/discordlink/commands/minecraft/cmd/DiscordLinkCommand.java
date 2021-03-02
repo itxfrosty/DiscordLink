@@ -28,7 +28,7 @@ public class DiscordLinkCommand extends ListenerAdapter {
             Member member = e.getMember();
 
             db.connect();
-            db.insert(player.getUniqueId(),member.getId());
+            db.insert(player.getUniqueId(),member.getId(), player.getDisplayName());
 
             player.sendMessage("Linked!");
 

@@ -17,7 +17,7 @@ public class Lang {
         player.sendMessage(ChatColor.AQUA + "UUID: " + player.getUniqueId().toString());
         player.sendMessage(" ");
         player.sendMessage(ChatColor.AQUA + "Account Type:" +ChatColor.BOLD+" Discord");
-        player.sendMessage(ChatColor.AQUA + "Username: " + DiscordLink.playerData.get(player.getUniqueId().toString()));
+        player.sendMessage(ChatColor.AQUA + "Username: ");
         player.sendMessage(ChatColor.AQUA + "UUID: ");
         player.sendMessage(Lang.LINE);
     }

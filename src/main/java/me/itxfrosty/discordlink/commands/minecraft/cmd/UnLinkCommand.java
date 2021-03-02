@@ -18,6 +18,7 @@ public class UnLinkCommand extends CommandBase {
     public void execute(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
+            db.connect();
 
             if (db.contains(player.getUniqueId())) {
                 LinkManager.unlink(player);
