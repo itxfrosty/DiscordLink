@@ -10,6 +10,7 @@ import org.bukkit.plugin.SimplePluginManager;
 import java.lang.reflect.Field;
 
 public class CommandModule {
+
 	
 	private static CommandMap commandMap;
 

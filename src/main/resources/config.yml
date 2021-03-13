@@ -10,9 +10,6 @@ configured: false
 # Discord Bot Configuration.
 bot:
 
-  # Whether or not the usage of a bot is enabled.
-  enabled: false
-
   # The token of the bot that should be used.
   token: "INSERT_TOKEN_HERE"
 
@@ -24,3 +21,24 @@ bot:
 
   # Change the status to anything you want! For Example "play.hypixel.net"!
   status: ""
+
+###################
+#     Database    #
+###################
+# Used to keep track of player linking.
+database:
+
+  # The host of the database. 'localhost' and '127.0.0.1' both point to the local machine
+  host: ""
+
+  # The port to use.
+  port: ""
+
+  # The database to use.
+  database: ""
+
+  # The username to use to login to the database.
+  username: ""
+
+  # The password to use to login to the database.
+  password: ""

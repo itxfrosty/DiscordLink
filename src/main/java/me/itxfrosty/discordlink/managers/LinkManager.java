@@ -1,5 +1,6 @@
 package me.itxfrosty.discordlink.managers;
 
+import me.itxfrosty.discordlink.DiscordLink;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.entity.Player;
 
@@ -16,7 +17,6 @@ public class LinkManager extends ListenerAdapter {
 
     // This is is disgusting. FIX THIS.
     private static final HashMap<Integer, Player> links = new HashMap<>();
-    private static DatabaseManager db = new DatabaseManager();
 
     public static HashMap<UUID, Integer> checks = new HashMap<UUID, Integer>();
     public static HashMap<Player, String> done = new HashMap<Player, String>();
@@ -56,8 +56,7 @@ public class LinkManager extends ListenerAdapter {
     }
 
     public static void unlink(Player player) {
-        db.connect();
-        db.remove(player.getUniqueId());
+        DiscordLink.getDBManager().remove(player.getUniqueId());
     }
 
     /**

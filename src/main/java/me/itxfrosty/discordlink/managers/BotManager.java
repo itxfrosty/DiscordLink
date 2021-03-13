@@ -1,9 +1,8 @@
 package me.itxfrosty.discordlink.managers;
 
 import lombok.SneakyThrows;
-import me.itxfrosty.discordlink.DiscordLink;
 import me.itxfrosty.discordlink.commands.minecraft.cmd.DiscordLinkCommand;
-import me.itxfrosty.discordlink.utils.ConsoleMessage;
+import me.itxfrosty.discordlink.utils.MessageUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -20,14 +19,14 @@ import java.util.List;
 public class BotManager {
 
     /**
+     * Discord Bot Manager.
+     *
      * Creation date: 2/13/2021
      * @author itxfrosty
      */
 
     private JDA jda;
     private JDABuilder jdaBuilder;
-
-    private DiscordLink bot;
 
     private final List<ListenerAdapter> eventListeners = new ArrayList<>();
 
@@ -56,9 +55,10 @@ public class BotManager {
      */
     public void build() {
         try {
+            addListeners();
             jda = jdaBuilder.build().awaitReady();
         } catch (LoginException | InterruptedException e) {
-            ConsoleMessage.log("Failed to log in to Discord: " + e.getMessage());
+            MessageUtils.log("Failed to log in to Discord: " + e.getMessage());
         }
     }
 
@@ -88,10 +88,19 @@ public class BotManager {
     }
 
     /**
+     * Set's Online Status of bot.
+     *
+     * @param onlineStatus Status of Bot.
+     */
+    public void setOnlineStatus(OnlineStatus onlineStatus) {
+        jdaBuilder.setStatus(onlineStatus);
+    }
+
+    /**
      * Set's the bots status and activity.
      *
      * @param activity Set's Activity of the bot.
-     * @param status   Set's the Status of the bot.
+     * @param status Set's the Status of the bot.
      */
     public void setActivityStatus(String activity, String status) {
         if (activity.equalsIgnoreCase("watching")) {
@@ -107,6 +116,16 @@ public class BotManager {
             return;
         }
         jdaBuilder.setActivity(Activity.playing(status));
+    }
+
+    /**
+     * Set's the bots status and activity.
+     *
+     * @param activity Set's Activity of the bot.
+     * @param status Set's the Status of the bot.
+     */
+    public void setActivityStatus(Activity.ActivityType activity, String status) {
+        jdaBuilder.setActivity(Activity.of(activity,status));
     }
 
     /**
