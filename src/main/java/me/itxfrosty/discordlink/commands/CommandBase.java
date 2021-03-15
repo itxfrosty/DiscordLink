@@ -1,4 +1,4 @@
-package me.itxfrosty.discordlink.commands.minecraft;
+package me.itxfrosty.discordlink.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

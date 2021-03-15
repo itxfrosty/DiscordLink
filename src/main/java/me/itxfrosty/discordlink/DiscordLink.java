@@ -1,8 +1,9 @@
 package me.itxfrosty.discordlink;
 
-import me.itxfrosty.discordlink.commands.minecraft.CommandModule;
+import me.itxfrosty.discordlink.commands.CommandModule;
 import me.itxfrosty.discordlink.managers.BotManager;
 import me.itxfrosty.discordlink.managers.DatabaseManager;
+import me.itxfrosty.discordlink.managers.LinkManager;
 import me.itxfrosty.discordlink.utils.MessageUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,16 +11,18 @@ public class DiscordLink extends JavaPlugin {
 
     private static DiscordLink instance;
 
-    private BotManager botManager;
+    private static BotManager botManager;
     private static DatabaseManager databaseManager;
+    private static LinkManager linkManager;
     private static MessageUtils messageUtils;
 
     @Override
     public void onEnable() {
         instance = this;
 
-        botManager = new BotManager();
         messageUtils = new MessageUtils();
+        botManager = new BotManager();
+        linkManager = new LinkManager();
         databaseManager = new DatabaseManager(
                 MessageUtils.HOST,
                 MessageUtils.PORT,
@@ -55,7 +58,13 @@ public class DiscordLink extends JavaPlugin {
      * Stop Method.
      */
     public void onStop() {
-        botManager.disconnectBot();
+        if (MessageUtils.TOKEN == null) {
+            try {
+                botManager.disconnectBot();
+            } catch (Exception e) {
+                MessageUtils.log("Could not log out");
+            }
+        }
         databaseManager.closeConnection();
     }
 
@@ -71,15 +80,23 @@ public class DiscordLink extends JavaPlugin {
      * Get's Bot Manager.
      * @return BotManager.
      */
-    public BotManager getBotManager() {
+    public static BotManager getBotManager() {
         return botManager;
+    }
+
+    /**
+     * Get's Link Manager.
+     * @return LinkManager.
+     */
+    public static LinkManager getLinkManager() {
+        return linkManager;
     }
 
     /**
      * Get's Message Utils.
      * @return MessageUtils.
      */
-    public MessageUtils getMessageUtils() {
+    public static MessageUtils getMessageUtils() {
         return messageUtils;
     }
 
@@ -92,48 +109,3 @@ public class DiscordLink extends JavaPlugin {
     }
 
 }
-/*
-
-private static DiscordLink instance;
-
-    private BotManager bot;
-    private static DatabaseManager db;
-
-    @Override
-    public void onEnable() {
-        instance = this;
-
-        saveDefaultConfig();
-
-        new MessageUtils();
-        bot = new BotManager();
-        db = new DatabaseManager(
-                MessageUtils.HOST,
-                MessageUtils.PORT,
-                MessageUtils.DATABASE,
-                MessageUtils.USERNAME,
-                MessageUtils.PASSWORD);
-        db.connect();
-
-        startBot("NzgxNjI3Mzk2MzYxMDI3NTk1.X8AZPQ.SLgLWlJ5CkUhHlR1Bx4vG5dhMdc");
-
-        CommandModule.registerCommands();
-    }
-
-    @Override
-    public void onDisable() {
-        bot.disconnectBot();
-        db.closeConnection();
-    }
-
-    public void startBot(String token) {
-        bot.connectBot(token);
-
-        bot.setOnlineStatus(OnlineStatus.ONLINE);
-        bot.setActivityStatus(Activity.ActivityType.WATCHING,"Hey");
-
-        bot.build();
-    }
-
-
- */

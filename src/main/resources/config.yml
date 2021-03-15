@@ -22,6 +22,25 @@ bot:
   # Change the status to anything you want! For Example "play.hypixel.net"!
   status: ""
 
+###############
+#     Chat    #
+###############
+# Discord Bot Configuration.
+chat:
+
+  enabled: true
+
+  chat_channel:
+
+  # Prefix for message sent from discord to Minecraft.
+  prefix: '&7[&b&lDiscord&7]&r'
+
+  # Message format | Options: %prefix% %player%: %message%
+  discordToMinecraft: '%prefix% %player%: %message%'
+
+
+
+
 ###################
 #     Database    #
 ###################

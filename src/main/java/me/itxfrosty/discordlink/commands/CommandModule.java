@@ -1,8 +1,8 @@
-package me.itxfrosty.discordlink.commands.minecraft;
+package me.itxfrosty.discordlink.commands;
 
 import me.itxfrosty.discordlink.DiscordLink;
-import me.itxfrosty.discordlink.commands.minecraft.cmd.LinkCommand;
-import me.itxfrosty.discordlink.commands.minecraft.cmd.UnLinkCommand;
+import me.itxfrosty.discordlink.commands.cmd.CommandLink;
+import net.minecraft.server.v1_16_R3.Matrix4f;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.SimplePluginManager;
@@ -15,13 +15,14 @@ public class CommandModule {
 	private static CommandMap commandMap;
 
 	public static void registerCommands() {
-		CommandModule.registerCommand(new LinkCommand());
-		CommandModule.registerCommand(new UnLinkCommand());
+		CommandModule.registerCommand(new CommandLink());
 	}
 
 	public static void registerCommand(CommandBase command) {
 		getCommandMap().register(DiscordLink.getInstance().getName(), command);
+
 	}
+
 	
 	private static CommandMap getCommandMap() {
 		if(commandMap == null) {

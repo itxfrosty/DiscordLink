@@ -1,7 +1,7 @@
 package me.itxfrosty.discordlink.managers;
 
 import lombok.SneakyThrows;
-import me.itxfrosty.discordlink.commands.minecraft.cmd.DiscordLinkCommand;
+import me.itxfrosty.discordlink.listeners.DiscordLinkCommand;
 import me.itxfrosty.discordlink.utils.MessageUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -55,7 +55,6 @@ public class BotManager {
      */
     public void build() {
         try {
-            addListeners();
             jda = jdaBuilder.build().awaitReady();
         } catch (LoginException | InterruptedException e) {
             MessageUtils.log("Failed to log in to Discord: " + e.getMessage());
@@ -157,9 +156,10 @@ public class BotManager {
 
     /**
      * Get's the status of the Discord Bot!
+     * @return Status.
      */
-    public void getBotStatus() {
-        jda.getStatus();
+    public JDA.Status getBotStatus() {
+        return jda.getStatus();
     }
 
     /**

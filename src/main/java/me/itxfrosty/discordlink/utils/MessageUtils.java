@@ -1,8 +1,11 @@
 package me.itxfrosty.discordlink.utils;
 
 import me.itxfrosty.discordlink.DiscordLink;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class MessageUtils {
+
+    FileConfiguration config = DiscordLink.getInstance().getConfig();
 
     /**
      * Config Configured.
@@ -16,6 +19,9 @@ public class MessageUtils {
     public static final String ONLINE_STATUS = DiscordLink.getInstance().getConfig().getString("bot.online_status");
     public static final String ACTIVITY = DiscordLink.getInstance().getConfig().getString("bot.activity");
     public static final String STATUS = DiscordLink.getInstance().getConfig().getString("bot.status");
+
+    public static final Long CHAT_CHANNEL = DiscordLink.getInstance().getConfig().getLong("bot.chat_channel");
+    public static final Long LINK_CHANNEL = DiscordLink.getInstance().getConfig().getLong("bot.link_channel");
 
     /**
      * Database Info.
@@ -45,5 +51,9 @@ public class MessageUtils {
     public static final String PURPLE = "\u001b[0;35m";
     public static final String CYAN = "\u001b[0;36m";
     public static final String WHITE = "\u001b[0;37m";
+
+
+    public static final String VERIFY_REACTION = "\u2705";
+    public static final String VERIFY_REACTION_CODEPOINT = "U+2705";
 
 }

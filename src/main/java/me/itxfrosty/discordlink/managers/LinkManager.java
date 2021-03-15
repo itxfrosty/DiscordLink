@@ -1,75 +1,76 @@
 package me.itxfrosty.discordlink.managers;
 
 import me.itxfrosty.discordlink.DiscordLink;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
-public class LinkManager extends ListenerAdapter {
+public class LinkManager {
 
     /**
-     * Creation date: 2/13/2021
+     * Link Manager.
+     *
+     * Creation date: 3/13/2021
      * @author itxfrosty
      */
 
-    // This is is disgusting. FIX THIS.
-    private static final HashMap<Integer, Player> links = new HashMap<>();
+    private final HashMap<Integer, Player> links = new HashMap<>();
+    private static final HashMap<Player, Integer> hasCode = new HashMap<>();
 
-    public static HashMap<UUID, Integer> checks = new HashMap<UUID, Integer>();
-    public static HashMap<Player, String> done = new HashMap<Player, String>();
-    public final HashMap<Player, Integer> link2 = new HashMap<>();
+    private final DatabaseManager database = DiscordLink.getDBManager();
 
     /**
-     * Start's Link for player.
+     * Start's Link process.
      *
      * @param player Player.
-     * @return Code for Link.
+     * @return Code for link.
      */
-    public static int link(Player player) {
-        int code = code();
+    public int link(Player player) {
+        int code = generateCode();
         links.put(code, player);
+        hasCode.put(player, code);
         return code;
+
     }
 
     /**
-     * End's Link for player.
+     * Confirms Link.
      *
-     * @param code Player's Code.
-     * @return player's UUID.
+     * @param code Code.
+     * @return Player.
      */
-    public static Player completeLink(int code) {
+    public Player confirmLink(int code) {
         if (!links.containsKey(code)) return null;
+        hasCode.remove(links.get(code));
         return links.get(code);
     }
 
     /**
-     * Deletes code from HashMap.
-     *
-     * @param code Player's Code.
+     * Unlinks player.
+     * @param player Player.
      */
-    public static void remove(int code) {
-        if (!links.containsKey(code)) return;
-        links.remove(code);
-    }
-
-    public static void unlink(Player player) {
-        DiscordLink.getDBManager().remove(player.getUniqueId());
+    public boolean unlink(Player player) {
+        if (database.contains(player.getUniqueId())) {
+            database.remove(player.getUniqueId());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
-     * Creates Code for linking player.
-     *
-     * @return The code.
+     * Generates Code for Link.
+     * @return Code.
      */
-    private static int code() {
+    public int generateCode() {
         int code = new Random().nextInt(10000);
         while (links.containsKey(code)) code = new Random().nextInt(10000);
         return code;
     }
 
-
-
+    public HashMap<Player, Integer> getHasCode() {
+        return hasCode;
+    }
 }
