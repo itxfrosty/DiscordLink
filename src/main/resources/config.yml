@@ -4,6 +4,8 @@
 # Set this to true once you have configured the configuration.
 configured: false
 
+
+
 ###############
 #     Bot     #
 ###############
@@ -29,6 +31,9 @@ bot:
 chat:
 
   enabled: true
+
+  # Boolean | True: Chat Integration enabled. | False: Chat Integration disabled.
+  chat_boolean: false
 
   chat_channel:
 

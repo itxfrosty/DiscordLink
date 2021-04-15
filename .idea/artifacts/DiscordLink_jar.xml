@@ -37,16 +37,8 @@
       <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.10.1" />
       <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.1" />
       <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.1" />
-      <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.3" />
-      <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.3" />
       <element id="library" level="project" name="Maven: org.bstats:bstats-bukkit:2.2.1" />
       <element id="library" level="project" name="Maven: org.bstats:bstats-base:2.2.1" />
-      <element id="library" level="project" name="Maven: FortressGamesAPI:FortressGamesAPI:1.0" />
-      <element id="library" level="project" name="Maven: com.visualfiredev:javabase:0.0.4" />
-      <element id="library" level="project" name="Maven: org.mariadb.jdbc:mariadb-java-client:2.7.0" />
-      <element id="library" level="project" name="Maven: org.xerial:sqlite-jdbc:3.32.3.2" />
-      <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.22" />
-      <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.11.4" />
     </root>
   </artifact>
 </component>

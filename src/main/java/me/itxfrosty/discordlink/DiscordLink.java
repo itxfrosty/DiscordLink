@@ -1,111 +1,91 @@
 package me.itxfrosty.discordlink;
 
-import me.itxfrosty.discordlink.commands.CommandModule;
+import lombok.Getter;
+import me.itxfrosty.discordlink.commands.discord.CommandManager;
+import me.itxfrosty.discordlink.commands.minecraft.cmd.CommandLink;
+import me.itxfrosty.discordlink.listeners.ChatListeners;
 import me.itxfrosty.discordlink.managers.BotManager;
 import me.itxfrosty.discordlink.managers.DatabaseManager;
 import me.itxfrosty.discordlink.managers.LinkManager;
-import me.itxfrosty.discordlink.utils.MessageUtils;
+import me.itxfrosty.discordlink.managers.MessageManager;
+import me.itxfrosty.discordlink.user.UserModule;
+import me.itxfrosty.discordlink.utils.ProjectUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class DiscordLink extends JavaPlugin {
 
-    private static DiscordLink instance;
+	@Getter private static DiscordLink instance;
 
-    private static BotManager botManager;
-    private static DatabaseManager databaseManager;
-    private static LinkManager linkManager;
-    private static MessageUtils messageUtils;
+	@Getter private static BotManager botManager;
+	@Getter private static DatabaseManager databaseManager;
+	@Getter private static LinkManager linkManager;
+	@Getter private static MessageManager messageManager;
 
-    @Override
-    public void onEnable() {
-        instance = this;
+	@Override
+	public void onEnable() {
+		instance = this;
 
-        messageUtils = new MessageUtils();
-        botManager = new BotManager();
-        linkManager = new LinkManager();
-        databaseManager = new DatabaseManager(
-                MessageUtils.HOST,
-                MessageUtils.PORT,
-                MessageUtils.DATABASE,
-                MessageUtils.USERNAME,
-                MessageUtils.PASSWORD);
-        onStart();
-    }
+		messageManager = new MessageManager();
+		botManager = new BotManager();
+		linkManager = new LinkManager();
+		databaseManager = new DatabaseManager(
+				MessageManager.HOST,
+				MessageManager.PORT,
+				MessageManager.DATABASE,
+				MessageManager.USERNAME,
+				MessageManager.PASSWORD);
+		onStart();
+	}
 
-    @Override
-    public void onDisable() {
-        onStop();
-    }
+	@Override
+	public void onDisable() {
+		onStop();
+	}
 
-    /**
-     * Start Method.
-     */
-    public void onStart() {
-        databaseManager.connect();
+	/**
+	 * Start Method.
+	 */
+	public void onStart() {
+		if (!MessageManager.CONFIGURED) {
+			System.err.println("Bot is not configured. Please Configure the bot before starting.");
+			Bukkit.getPluginManager().disablePlugin(this);
+			return;
+		}
 
-        assert MessageUtils.ONLINE_STATUS != null;
-        assert MessageUtils.ACTIVITY != null;
+		databaseManager.connect();
 
-        botManager.connectBot(MessageUtils.TOKEN);
-        botManager.setOnlineStatus(MessageUtils.ONLINE_STATUS);
-        botManager.setActivityStatus(MessageUtils.ACTIVITY, MessageUtils.STATUS);
-        botManager.build();
+		assert MessageManager.ONLINE_STATUS != null;
+		assert MessageManager.ACTIVITY != null;
 
-        CommandModule.registerCommands();
-    }
+		botManager.connectBot(MessageManager.TOKEN);
+		botManager.setOnlineStatus(MessageManager.ONLINE_STATUS);
+		botManager.setActivityStatus(MessageManager.ACTIVITY, MessageManager.STATUS);
 
-    /**
-     * Stop Method.
-     */
-    public void onStop() {
-        if (MessageUtils.TOKEN == null) {
-            try {
-                botManager.disconnectBot();
-            } catch (Exception e) {
-                MessageUtils.log("Could not log out");
-            }
-        }
-        databaseManager.closeConnection();
-    }
+		botManager.registerEventListener(new CommandManager());
 
-    /**
-     * Get's databaseManager.
-     * @return DatabaseManager.
-     */
-    public static DatabaseManager getDBManager() {
-        return databaseManager;
-    }
+		if (MessageManager.CHAT_BOOLEAN) {
+			ProjectUtils.registerListeners(this, new ChatListeners());
+			botManager.registerEventListener(new ChatListeners());
+		}
 
-    /**
-     * Get's Bot Manager.
-     * @return BotManager.
-     */
-    public static BotManager getBotManager() {
-        return botManager;
-    }
+		botManager.build();
 
-    /**
-     * Get's Link Manager.
-     * @return LinkManager.
-     */
-    public static LinkManager getLinkManager() {
-        return linkManager;
-    }
+		ProjectUtils.registerCommands(new CommandLink());
+		ProjectUtils.registerListeners(this, UserModule.getInstance());
+	}
 
-    /**
-     * Get's Message Utils.
-     * @return MessageUtils.
-     */
-    public static MessageUtils getMessageUtils() {
-        return messageUtils;
-    }
-
-    /**
-     * Get's instance in main class.
-     * @return Instance of main class.
-     */
-    public static DiscordLink getInstance() {
-        return instance;
-    }
-
+	/**
+	 * Stop Method.
+	 */
+	public void onStop() {
+		if (MessageManager.TOKEN != null) {
+			try {
+				botManager.disconnectBot();
+			} catch (Exception e) {
+				MessageManager.log("Could not log out.");
+			}
+		}
+		databaseManager.closeConnection();
+	}
 }
