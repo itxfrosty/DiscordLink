@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DiscordLink.iml" filepath="$PROJECT_DIR$/DiscordLink.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DiscordLink-Database/DiscordLink-Database.iml" filepath="$PROJECT_DIR$/DiscordLink-Database/DiscordLink-Database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DiscordLink-Spigot/DiscordLink-Spigot.iml" filepath="$PROJECT_DIR$/DiscordLink-Spigot/DiscordLink-Spigot.iml" />
     </modules>
   </component>
 </project>
