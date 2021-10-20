@@ -1,0 +1,17 @@
+###############
+#     Bot     #
+###############
+# Discord Bot Configuration.
+bot:
+
+  # The token of the bot that should be used.
+  token: "INSERT_TOKEN_HERE"
+
+  # Possible options: Online, Idle, Do Not Disturb, Offline.
+  online_status: "Online"
+
+  # Possible options: Watching, Listening, Do Not Disturb, playing.
+  activity: "playing"
+
+  # Change the status to anything you want! For Example "play.hypixel.net"!
+  status: ""

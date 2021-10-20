@@ -5,6 +5,7 @@
       <list>
         <option value="$PROJECT_DIR$/DiscordLink-Database/pom.xml" />
         <option value="$PROJECT_DIR$/DiscordLink-Spigot/pom.xml" />
+        <option value="$PROJECT_DIR$/DiscordLink-Testing~Grounds/pom.xml" />
       </list>
     </option>
   </component>
