@@ -1,8 +1,0 @@
-me\itxfrosty\database\QueryHandler.class
-me\itxfrosty\database\tables\LinkDB.class
-me\itxfrosty\database\managers\LinkDBManager.class
-me\itxfrosty\database\contexts\LinkContext.class
-me\itxfrosty\database\QueryHandler$OnEventFunction.class
-me\itxfrosty\database\Database.class
-me\itxfrosty\database\QueryHandler$OnFinallyFunction.class
-me\itxfrosty\database\QueryHandler$queryContext.class
